@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task List</title>
+</head>
+<body>
+  <input type="text" id="Title" placeholder="Masukkan task" style="width: 100px;" height="30px">
+  <button onclick="addTask()">Submit</button>
+
+  <ul id="taskList"></ul>
+  <button id="startButton" style="display: none;" onclick="startTasks()">Start</button>
+
+  <script>
+    var tasks = [];
+
+    function addTask() {
+      var taskTitleInput = document.getElementById("Title");
+      var taskTitle = taskTitleInput.value.trim();
+
+      if (taskTitle === "") {
+        alert("Masukkan judul terlebih dahulu");
+        return;
+      }
+
+      tasks.push(taskTitle);
+      taskTitleInput.value = "";
+
+      displayTaskList();
+      showStartButton();
+    }
+
+    function displayTaskList() {
+      var taskList = document.getElementById("taskList");
+      taskList.innerHTML = "";
+
+      for (var i = 0; i < tasks.length; i++) {
+        var taskItem = document.createElement("li");
+        taskItem.textContent = tasks[i];
+        taskList.appendChild(taskItem);
+      }
+    }
+
+    function showStartButton() {
+      var startButton = document.getElementById("startButton");
+      startButton.style.display = tasks.length >= 1 ? "block" : "none";
+    }
+
+    function startTasks() {
+      var taskIndex = 0;
+
+      function completeTask() {
+        if (taskIndex < tasks.length) {
+          var currentTask = tasks[taskIndex];
+          console.log("Completing task:", currentTask);
+
+          taskIndex++;
+          setTimeout(completeTask, 3000);
+        } else {
+          showNotification("Selesai");
+        }
+      }
+
+      completeTask();
+    }
+
+    function showNotification(message) {
+      // Simulate a notification by displaying an alert
+      alert(message);
+    }
+  </script>
+</body>
+</html>
